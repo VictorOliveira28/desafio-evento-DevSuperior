@@ -4,19 +4,17 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_atividade")
-public class Atividade implements Serializable{
+@Table(name = "tb_participante")
+public class Participante implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -24,32 +22,21 @@ public class Atividade implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	private String descricao;
-	private Double preco;
 	
-	@ManyToOne
-	@JoinColumn(name = "categoria_id")
-	private Categoria categoria;
+	@Column(unique = true)
+	private String email;
 	
-	@ManyToOne
-	@JoinColumn(name = "bloco_id")
-	private Bloco bloco;
-	
-	@ManyToMany
-	@JoinTable(name = "atividade_participante",
-	joinColumns = @JoinColumn(name = "atividade_id"), 
-	inverseJoinColumns = @JoinColumn(name = "participante_id"))
-	private List<Participante> participantes;
-	
-	public Atividade() {		
-	}
+	@ManyToMany(mappedBy = "participantes")
+	private List<Atividade> atividades;
 
-	public Atividade(Integer id, String nome, String descricao, Double preco) {
+	public Participante() {	
+	}
+	
+	public Participante(Integer id, String nome, String email) {
 		
 		this.id = id;
 		this.nome = nome;
-		this.descricao = descricao;
-		this.preco = preco;
+		this.email = email;
 	}
 
 	public Integer getId() {
@@ -68,20 +55,12 @@ public class Atividade implements Serializable{
 		this.nome = nome;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public double getPreco() {
-		return preco;
-	}
-
-	public void setPreco(Double preco) {
-		this.preco = preco;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
@@ -97,7 +76,7 @@ public class Atividade implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Atividade other = (Atividade) obj;
+		Participante other = (Participante) obj;
 		return Objects.equals(id, other.id);
 	}	
 }
