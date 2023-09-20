@@ -28,11 +28,15 @@ public class Atividade implements Serializable{
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
 	
+	@ManyToOne
+	@JoinColumn(name = "bloco_id")
+	private Bloco bloco;
+	
 	public Atividade() {		
 	}
 
 	public Atividade(Integer id, String nome, String descricao, Double preco) {
-		super();
+		
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
