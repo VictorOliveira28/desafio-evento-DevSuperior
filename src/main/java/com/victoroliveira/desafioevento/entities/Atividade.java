@@ -1,9 +1,11 @@
 package com.victoroliveira.desafioevento.entities;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,17 +32,19 @@ public class Atividade implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
+	@MapsId
 	private Categoria categoria;
 	
+	@MapsId
 	@ManyToOne
-	@JoinColumn(name = "bloco_id")
+	@JoinColumn(name = "bloco_id")	
 	private Bloco bloco;
 	
 	@ManyToMany
 	@JoinTable(name = "atividade_participante",
 	joinColumns = @JoinColumn(name = "atividade_id"), 
 	inverseJoinColumns = @JoinColumn(name = "participante_id"))
-	private List<Participante> participantes;
+	private Set<Participante> participantes = new HashSet<>();	
 	
 	public Atividade() {		
 	}
@@ -82,6 +87,10 @@ public class Atividade implements Serializable{
 
 	public void setPreco(Double preco) {
 		this.preco = preco;
+	}
+	
+	public Set<Participante> getParticipantes() {
+		return participantes;
 	}
 
 	@Override

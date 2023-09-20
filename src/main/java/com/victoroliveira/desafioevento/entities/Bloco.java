@@ -22,13 +22,14 @@ public class Bloco implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
 	private Integer id;
 	private Instant inicio;
 	private Instant fim;
 	
-	@OneToMany(mappedBy = "bloco", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "bloco", cascade = CascadeType.ALL)
 	private List<Atividade> atividades = new ArrayList<>();
-	
+
 	public Bloco() {		
 	}
 
@@ -61,6 +62,10 @@ public class Bloco implements Serializable {
 
 	public void setFim(Instant fim) {
 		this.fim = fim;
+	}
+	
+	public List<Atividade> getAtividades() {
+		return atividades;
 	}
 
 	@Override

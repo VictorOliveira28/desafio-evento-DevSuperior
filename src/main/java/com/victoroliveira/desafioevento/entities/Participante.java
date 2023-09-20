@@ -39,6 +39,10 @@ public class Participante implements Serializable{
 		this.email = email;
 	}
 
+	public List<Atividade> getAtividades() {
+		return atividades;
+	}
+
 	public Integer getId() {
 		return id;
 	}
