@@ -2,11 +2,13 @@ package com.victoroliveira.desafioevento.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,14 +23,17 @@ public class Bloco implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Integer id;
+	
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant inicio;
+	
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant fim;
 	
-	@OneToMany(mappedBy = "bloco", cascade = CascadeType.ALL)
-	private List<Atividade> atividades = new ArrayList<>();
+	@OneToMany(mappedBy = "blocos", cascade = CascadeType.ALL)	
+	private Set<Atividade> blocos = new HashSet<>();
 
 	public Bloco() {		
 	}
@@ -64,8 +69,8 @@ public class Bloco implements Serializable {
 		this.fim = fim;
 	}
 	
-	public List<Atividade> getAtividades() {
-		return atividades;
+	public Set<Atividade> getAtividades() {
+		return blocos;
 	}
 
 	@Override

@@ -1,14 +1,19 @@
 package com.victoroliveira.desafioevento.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
@@ -24,10 +29,16 @@ public class Participante implements Serializable{
 	private String nome;
 	
 	@Column(unique = true)
-	private String email;
+	private String email;	
 	
 	@ManyToMany(mappedBy = "participantes")
-	private List<Atividade> atividades;
+	private Set<Atividade> participantes = new HashSet<>();
+	
+	@ManyToMany
+	@JoinTable(name = "atividades_participante",
+	joinColumns = @JoinColumn(name = "atividades_id"), 
+	inverseJoinColumns = @JoinColumn(name = "participante_id"))
+	private List<Atividade> atividades = new ArrayList<>();
 
 	public Participante() {	
 	}
@@ -65,6 +76,10 @@ public class Participante implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Set<Atividade> getParticipantes() {
+		return participantes;
 	}
 
 	@Override

@@ -1,11 +1,12 @@
 package com.victoroliveira.desafioevento.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,43 +15,48 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_atividade")
-public class Atividade implements Serializable{
+public class Atividade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private String descricao;
 	private Double preco;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
-	@MapsId
 	private Categoria categoria;
-	
-	@MapsId
+
 	@ManyToOne
-	@JoinColumn(name = "bloco_id")	
-	private Bloco bloco;
-	
+	@JoinColumn(name = "atividade_id")
+	private Atividade atividade;
+
+	@ManyToOne
+	@JoinColumn(name = "blocos_id")
+	private Bloco blocos;
+
 	@ManyToMany
-	@JoinTable(name = "atividade_participante",
+	@JoinTable(name = "atividades_participante", 
 	joinColumns = @JoinColumn(name = "atividade_id"), 
 	inverseJoinColumns = @JoinColumn(name = "participante_id"))
-	private Set<Participante> participantes = new HashSet<>();	
-	
-	public Atividade() {		
+	private Set<Participante> participantes = new HashSet<>();
+
+	@OneToMany(mappedBy = "atividade")
+	private Set<Atividade> atividades = new HashSet<>();
+
+	public Atividade() {
 	}
 
 	public Atividade(Integer id, String nome, String descricao, Double preco) {
-		
+
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
@@ -88,9 +94,17 @@ public class Atividade implements Serializable{
 	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
-	
-	public Set<Participante> getParticipantes() {
-		return participantes;
+
+	public Set<Atividade> getAtividades() {
+		return atividades;
+	}
+
+	public Atividade getAtividade() {
+		return atividade;
+	}
+
+	public void setAtividade(Atividade atividade) {
+		this.atividade = atividade;
 	}
 
 	@Override
@@ -108,5 +122,5 @@ public class Atividade implements Serializable{
 			return false;
 		Atividade other = (Atividade) obj;
 		return Objects.equals(id, other.id);
-	}	
+	}
 }

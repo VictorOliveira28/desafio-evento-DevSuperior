@@ -1,9 +1,10 @@
 package com.victoroliveira.desafioevento.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Categoria implements Serializable{
 	private String descricao;
 	
 	@OneToMany(mappedBy = "categoria")
-	private List<Atividade> atividades = new ArrayList<>();
+	private Set<Atividade> atividades = new HashSet<>();
 		
 	public Categoria() {		
 	}
@@ -51,7 +52,7 @@ public class Categoria implements Serializable{
 		this.descricao = descricao;
 	}
 	
-	public List<Atividade> getAtividade(){
+	public Set<Atividade> getAtividade(){
 		return atividades;
 	}
 
