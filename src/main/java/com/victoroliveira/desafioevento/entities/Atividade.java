@@ -35,32 +35,25 @@ public class Atividade implements Serializable {
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
 
-	@ManyToOne
-	@JoinColumn(name = "atividade_id")
-	private Atividade atividade;
-
-	@ManyToOne
-	@JoinColumn(name = "blocos_id")
-	private Bloco blocos;
+	@OneToMany(mappedBy = "atividade")
+	private List<Bloco> blocos = new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(name = "atividades_participante", 
-	joinColumns = @JoinColumn(name = "atividade_id"), 
+	@JoinTable(name = "tb_atividades_participantes", 
+	joinColumns = @JoinColumn(name = "atividades_id"), 
 	inverseJoinColumns = @JoinColumn(name = "participante_id"))
 	private Set<Participante> participantes = new HashSet<>();
-
-	@OneToMany(mappedBy = "atividade")
-	private Set<Atividade> atividades = new HashSet<>();
 
 	public Atividade() {
 	}
 
-	public Atividade(Integer id, String nome, String descricao, Double preco) {
+	public Atividade(Integer id, String nome, String descricao, Double preco, Categoria categoria) {
 
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
+		this.categoria = categoria;
 	}
 
 	public Integer getId() {
@@ -95,16 +88,20 @@ public class Atividade implements Serializable {
 		this.preco = preco;
 	}
 
-	public Set<Atividade> getAtividades() {
-		return atividades;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public Atividade getAtividade() {
-		return atividade;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
-
-	public void setAtividade(Atividade atividade) {
-		this.atividade = atividade;
+	
+	public List<Bloco> getBlocos(){
+		return blocos;
+	}
+	
+	public Set<Participante> getParticipantes(){
+		return participantes;
 	}
 
 	@Override

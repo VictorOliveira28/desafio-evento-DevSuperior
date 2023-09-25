@@ -1,7 +1,7 @@
 package com.victoroliveira.desafioevento.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -25,7 +25,7 @@ public class Categoria implements Serializable{
 	private String descricao;
 	
 	@OneToMany(mappedBy = "categoria")
-	private Set<Atividade> atividades = new HashSet<>();
+	private List<Atividade> atividades = new ArrayList<>();
 		
 	public Categoria() {		
 	}
@@ -52,7 +52,7 @@ public class Categoria implements Serializable{
 		this.descricao = descricao;
 	}
 	
-	public Set<Atividade> getAtividade(){
+	public List<Atividade> getAtividade(){
 		return atividades;
 	}
 

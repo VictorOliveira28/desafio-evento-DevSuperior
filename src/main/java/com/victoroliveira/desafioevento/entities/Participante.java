@@ -32,13 +32,7 @@ public class Participante implements Serializable{
 	private String email;	
 	
 	@ManyToMany(mappedBy = "participantes")
-	private Set<Atividade> participantes = new HashSet<>();
-	
-	@ManyToMany
-	@JoinTable(name = "atividades_participante",
-	joinColumns = @JoinColumn(name = "atividades_id"), 
-	inverseJoinColumns = @JoinColumn(name = "participante_id"))
-	private List<Atividade> atividades = new ArrayList<>();
+	private Set<Atividade> atividades = new HashSet<>();	
 
 	public Participante() {	
 	}
@@ -50,7 +44,7 @@ public class Participante implements Serializable{
 		this.email = email;
 	}
 
-	public List<Atividade> getAtividades() {
+	public Set<Atividade> getAtividades() {
 		return atividades;
 	}
 
@@ -76,11 +70,7 @@ public class Participante implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Set<Atividade> getParticipantes() {
-		return participantes;
-	}
+	}	
 
 	@Override
 	public int hashCode() {
